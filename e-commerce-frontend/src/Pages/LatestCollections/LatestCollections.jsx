@@ -8,7 +8,7 @@ import { ShopContext} from '../../Context/ShopContext';
 import '../CSS/ShopCategory.css';
 
 const LatestCollections = () => {
-    const {all_product}=useContext(ShopContext);
+    // const {all_product}=useContext(ShopContext);
     
   return (
     <div>

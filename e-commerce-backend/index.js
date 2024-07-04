@@ -6,13 +6,15 @@ const jwt = require("jsonwebtoken");
 const multer = require("multer");
 const path = require("path");
 const cors = require("cors");
-
+const bcrypt=require('bcrypt');
+const dbconnect=require('./config/database');
 app.use(express.json());
 app.use(cors());
 
 // Database Connection With MongoDB
 // const dbConnect=require('./config/database');
-mongoose.connect("mongodb+srv://aroramanan2605:ma43ra@cluster0.2byifpu.mongodb.net/");
+mongoose.connect("mongodb+srv://buylow:buylow@cluster0.ekc7wew.mongodb.net/");
+// dbconnect();
 // password should not contain '@' special character
 
 //Image Storage Engine 
@@ -128,11 +130,11 @@ app.post('/login', async (req, res) => {
 			res.json({ success, token });
         }
         else {
-            return res.status(400).json({success: success, errors: "please try with correct email/password"})
+            return res.status(400).json({success: success, errors: "Invalid Email or Password"})
         }
     }
     else {
-        return res.status(400).json({success: success, errors: "please try with correct email/password"})
+        return res.status(400).json({success: success, errors: "Invalid Email or Password"})
     }
 })
 
@@ -144,15 +146,22 @@ app.post('/signup', async (req, res) => {
         if (check) {
             return res.status(400).json({ success: false, errors: "existing user found with this email" });
         }
+        
         let cart = {};
           for (let i = 0; i < 300; i++) {
           cart[i] = 0;
         }
+        let hashedPassword= await bcrypt.hash(req.body.password,10);
+        // const user=Users.create({
+        //   name: req.body.username,
+        //   email: req.body.email,
+        //      password:hashedPassword,
+        // })
         const user = new Users({
             name: req.body.username,
             email: req.body.email,
-            password: req.body.password,
-            cartData: cart,
+            password:hashedPassword,
+            
         });
         await user.save();
         const data = {
@@ -211,10 +220,9 @@ app.post('/removefromcart', fetchuser, async (req, res) => {
 app.post('/getcart', fetchuser, async (req, res) => {
   console.log("Get Cart");
   let userData = await Users.findOne({_id:req.user.id});
-  res.json(userData.cartData);
+  // res.json(userData.cartData);
 
   })
-
 
 app.post("/addproduct", async (req, res) => {
   let products = await Product.find({});
