@@ -23,9 +23,9 @@ dbconnect();
 // password should not contain '@' special character
 
 // const path = require("path");
-const _dirname = path.dirname("");
-const buildpath = path.join(_dirname,"../e-commerce-frontend/build");
-app.use(express.static(buildpath));
+// const _dirname = path.dirname("");
+// const buildpath = path.join(_dirname,"../e-commerce-frontend/build");
+// app.use(express.static(buildpath));
 //Image Storage Engine 
 const storage = multer.diskStorage({
     destination: './upload/images',
