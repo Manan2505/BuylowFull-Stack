@@ -12,14 +12,14 @@ app.use(express.json());
 app.use(cors());
 
 // Database Connection With MongoDB
-// const dbConnect=require('./config/database');
-try{
+const dbConnect=require('./config/database');
+// try{
 
-  mongoose.connect("mongodb+srv://buylow:buylow@cluster0.ekc7wew.mongodb.net/");
-}catch(err){
-  console.log("mongodb error ",err);
-}
-// dbconnect();
+//   // mongoose.connect("mongodb+srv://buylow:buylow@cluster0.ekc7wew.mongodb.net/");
+// }catch(err){
+//   console.log("mongodb error ",err);
+// }
+dbconnect();
 // password should not contain '@' special character
 
 // const path = require("path");
