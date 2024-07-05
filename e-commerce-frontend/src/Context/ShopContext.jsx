@@ -69,6 +69,7 @@ const ShopContextProvider = (props) => {
       return;
     }
     setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }));
+    console.log(cartItems)
     if (localStorage.getItem("auth-token")) {
       fetch('http://localhost:4000/addtocart', {
         method: 'POST',

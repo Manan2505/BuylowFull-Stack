@@ -17,6 +17,10 @@ mongoose.connect("mongodb+srv://buylow:buylow@cluster0.ekc7wew.mongodb.net/");
 // dbconnect();
 // password should not contain '@' special character
 
+// const path = require("path");
+const _dirname = path.dirname("");
+const buildpath = path.join(_dirname,"../e-commerce-frontend/build");
+app.use(express.static(buildpath));
 //Image Storage Engine 
 const storage = multer.diskStorage({
     destination: './upload/images',
@@ -115,9 +119,10 @@ app.get("/", (req, res) => {
 app.post('/login', async (req, res) => {
   console.log("Login");
     let success = false;
-    let user = await Users.findOne({ email: req.body.email });
+    const {email,password}=req.body;
+    let user = await Users.findOne({ email });
     if (user) {
-        const passCompare = req.body.password === user.password;
+      const passCompare=await bcrypt.compare(password,user.password);
         if (passCompare) {
             const data = {
                 user: {
@@ -196,13 +201,13 @@ app.get("/popularinwomen", async (req, res) => {
 });
 
 //Create an endpoint for saving the product in cart
-app.post('/addtocart', fetchuser, async (req, res) => {
-	console.log("Add Cart");
-    let userData = await Users.findOne({_id:req.user.id});
-    userData.cartData[req.body.itemId] += 1;
-    await Users.findOneAndUpdate({_id:req.user.id}, {cartData:userData.cartData});
-    res.send("Added")
-  })
+// app.post('/addtocart', fetchuser, async (req, res) => {
+// 	console.log("Add Cart");
+//     let userData = await Users.findOne({_id:req.user.id});
+//     userData.cartData[req.body.itemId] += 1;
+//     await Users.findOneAndUpdate({_id:req.user.id}, {cartData:userData.cartData});
+//     res.send("Added")
+//   })
 
   //Create an endpoint for saving the product in cart
 app.post('/removefromcart', fetchuser, async (req, res) => {
