@@ -13,7 +13,12 @@ app.use(cors());
 
 // Database Connection With MongoDB
 // const dbConnect=require('./config/database');
-mongoose.connect("mongodb+srv://buylow:buylow@cluster0.ekc7wew.mongodb.net/");
+try{
+
+  mongoose.connect("mongodb+srv://buylow:buylow@cluster0.ekc7wew.mongodb.net/");
+}catch(err){
+  console.log("mongodb error ",err);
+}
 // dbconnect();
 // password should not contain '@' special character
 
